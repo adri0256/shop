@@ -13,12 +13,16 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
 
 export type Items<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     id: number;
-    img: string;
-    title: string;
-    content: string;
+    image: string;
+    name: string;
     price: number;
     quantity: number;
     category: string;
-    desc: string;
+    description: string;
     currency: string;
+    active: boolean;
+    category_id: number;
+    brand_id: number;
+    created_at: string;
+    updated_at: string;
 };

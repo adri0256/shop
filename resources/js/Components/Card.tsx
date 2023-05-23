@@ -6,10 +6,12 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Items } from '@/types';
-import { Box, TextField } from '@mui/material';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { useState } from 'react';
 
 const ShopCard = (props: Items) => {
-  const [quantity, setQuantity] = React.useState(props.quantity);
+  const [quantity, setQuantity] = useState(props.quantity);
 
   const handleOnQuantityChange = (e: { target: { value: string | number; }; }) => {
     if(+e.target.value < 1) setQuantity(1);
@@ -28,45 +30,58 @@ const ShopCard = (props: Items) => {
     if(quantity < 1) setQuantity(1);
   };
 
-  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleCardClick = () => {
     console.log("Card Clicked");
-    console.log(e.currentTarget.parentElement!.id);
+    console.log("id: " + props.id);
+
+    route('details/', props.id); 
+  };
+  
+  const handleAddToCart = () => {
+    console.log("Add to Cart Clicked");
+    console.log("id: " + props.id);
+    console.log("quantity: " + quantity);
   };
 
   return (
     <Card id={props.id+""} sx={{ maxWidth: 345, minWidth: 345 }}>
       <CardMedia
-        sx={{ height: 240 }}
-        image={props.img}
-        title={props.title}
+        sx={{ height: 240, cursor: 'pointer' }}
+        image={props.image}
+        title={props.name}
         onClick={handleCardClick}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-            {props.title}
+            {props.name}
         </Typography>
         <Typography gutterBottom component="div">
-            {props.desc}
+            {props.description}
         </Typography>
         <Typography color="text.primary">
             Price: {props.price} {props.currency}
         </Typography>
       </CardContent>
       <CardActions>
-        <Box sx={{ flexGrow: 1 }}>
-          <Button size="small" onClick={handleDecrement}>-</Button>
-          <TextField
-            id="quantity"
-            type="text"
-            value={quantity}
-            onChange={handleOnQuantityChange}
-            variant="standard"
-            sx={{ width: 30, textAlign: 'center', '& input': { textAlign: 'center' } }}
-            autoComplete='off'
-          />
-          <Button size="small" onClick={handleIncrement}>+</Button>
+        <Box sx={{ display: 'flex' }}>
+          <Box sx={{ flexGrow: 1 }}>
+            <Button size="small" onClick={handleDecrement}>-</Button>
+            <TextField
+              id="quantity"
+              type="text"
+              value={quantity}
+              onChange={handleOnQuantityChange}
+              variant="standard"
+              sx={{ width: 30, textAlign: 'center', '& input': { textAlign: 'center' } }}
+              autoComplete='off'
+            />
+            <Button size="small" onClick={handleIncrement}>+</Button>
+          </Box>
+          <Box>
+            <Button size="small" onClick={handleCardClick}>Details</Button>
+            <Button size="small" onClick={handleAddToCart}>Add to Cart</Button>
+          </Box>
         </Box>
-        <Button size="small">Add to Cart</Button>
       </CardActions>
     </Card>
   );

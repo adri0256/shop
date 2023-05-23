@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ItemsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,10 +24,27 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('/Shop', function () {
-    return Inertia::render('Shop');
-})->name('shop');
+Route::get('/Shop', [ItemsController::class, 'index'])->name('shop');
 
+//route to details page with id
+Route::get('/Details/{id}', function () {
+    return Inertia::render('Details');
+})->name('details');
+
+// Create route for ItemsController
+Route::resource('items', ItemsController::class)->names([
+    'index' => 'items.index',
+    'create' => 'items.create',
+    'store' => 'items.store',
+    'show' => 'items.show',
+    'edit' => 'items.edit',
+    'update' => 'items.update',
+    'destroy' => 'items.destroy',
+]);
+
+/*
+ * Protected routes
+ * */
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

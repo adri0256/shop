@@ -92,7 +92,7 @@ function Navigation({user}: {user: User}) {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography component={Link} href={route(`${page.toLowerCase()}`)} textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>

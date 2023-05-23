@@ -1,15 +1,17 @@
 import { BaseLayout } from "@/Layouts/BaseLayout";
-import { PageProps } from "@/types";
-import { Box } from "@mui/material";
-import { Head } from "@inertiajs/react";
+import { Items, PageProps } from "@/types";
+import { Box, Button, Pagination, PaginationItem, Typography } from "@mui/material";
+import { Head, Link } from "@inertiajs/react";
 import ShopCard from "@/Components/Card";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
-
+import axios from "axios";
+import { useEffect } from "react";
 
 /*
  * Temporary data
  * */
+/*
 const items = [
     {
         id: 1,
@@ -122,19 +124,38 @@ const items = [
         quantity: 1
     },
 ];
+*/
 
-const Shop = ({auth}: PageProps) => {
+const Shop: React.FC<PageProps<{ items: any }>> = ({ auth, items }) => {
+    
+    useEffect(() => {
+        console.log(items);
+    }, [items]);
+
     return (
         <BaseLayout user={auth.user}>
             <Head title="Shop" />
             <CssBaseline />
-                <Container sx={{ marginTop: 2.2 }}>
-                    <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                        {items.map(item => (
-                            <ShopCard key={item.id} {...item} />
-                        ))}
-                    </Box>
-                </Container>
+            <Container id='asd' sx={{ marginTop: 2.2 }}>
+                <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                    {items.data.map((item: Items) => (
+                        <ShopCard key={item.id} {...item} />
+                    ))}
+                </Box>
+                <Box sx={{ marginTop: 2 }}>
+                    <Pagination
+                        count={items.last_page}
+                        page={items.current_page}
+                        renderItem={(item) => (
+                            <PaginationItem
+                                component={Link}
+                                href={`/Shop?page=${item.page}`}
+                                {...item}
+                            />
+                        )}
+                    />
+                </Box>
+            </Container>
         </BaseLayout>
     );
 }
