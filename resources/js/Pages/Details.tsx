@@ -1,15 +1,25 @@
-import { Items } from "@/types";
+import { BaseLayout } from "@/Layouts/BaseLayout";
+import { Items, PageProps } from "@/types";
+import { Head } from "@inertiajs/react";
+import { Box, Container, CssBaseline } from "@mui/material";
 
-// react component for details page with id as url parameter
-const Details = (props: Items) => {
+const Details = ({ auth, item }: PageProps<{ item: Items }>) => {
+    console.log(item);
     return (
-        <div>
-            <h1>Details Page</h1>
-            <h2>{props.name}</h2>
-            <h3>{props.description}</h3>
-            <h4>{props.price}</h4>
-            <h5>{props.quantity}</h5>
-            <img src={props.image} alt={props.name} />
-        </div>
+        <BaseLayout user={auth.user}>
+            <Head title={item.name} />
+            <CssBaseline />
+            <Container sx={{ marginTop: 2.2 }}>
+                <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                    <h1>Details Page</h1>
+                    <h2>{item.name}</h2>
+                    <h3>{item.description}</h3>
+                    <h4>{item.price}</h4>
+                    <h5>{item.quantity}</h5>
+                </Box>
+            </Container>
+        </BaseLayout>
     );
 }
+
+export default Details;

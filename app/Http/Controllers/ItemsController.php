@@ -15,7 +15,6 @@ class ItemsController extends Controller
      */
     public function index()
     {
-        // return iteria render with all items from database with pagination
         return Inertia::render('Shop', [
             'items' => Items::paginate(6),
         ]);
@@ -41,12 +40,10 @@ class ItemsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Items $id)
+    public function show(int $id)
     {
-        $item = Items::find($id);
-
         return Inertia::render('Details', [
-            'item' => $item,
+            'item' => Items::find($id)
         ]);
     }
 

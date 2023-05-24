@@ -1,5 +1,4 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
+import { Link, Card as MatCard } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -10,7 +9,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 
-const ShopCard = (props: Items) => {
+const Card = (props: Items) => {
   const [quantity, setQuantity] = useState(props.quantity);
 
   const handleOnQuantityChange = (e: { target: { value: string | number; }; }) => {
@@ -33,8 +32,6 @@ const ShopCard = (props: Items) => {
   const handleCardClick = () => {
     console.log("Card Clicked");
     console.log("id: " + props.id);
-
-    route('details/', props.id); 
   };
   
   const handleAddToCart = () => {
@@ -44,12 +41,13 @@ const ShopCard = (props: Items) => {
   };
 
   return (
-    <Card id={props.id+""} sx={{ maxWidth: 345, minWidth: 345 }}>
+    <MatCard id={props.id+""} sx={{ maxWidth: 345, minWidth: 345 }}>
       <CardMedia
         sx={{ height: 240, cursor: 'pointer' }}
         image={props.image}
         title={props.name}
-        onClick={handleCardClick}
+        component={Link}
+        href={`/Details/${props.id}`}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -78,13 +76,13 @@ const ShopCard = (props: Items) => {
             <Button size="small" onClick={handleIncrement}>+</Button>
           </Box>
           <Box>
-            <Button size="small" onClick={handleCardClick}>Details</Button>
+            <Button size="small" component={Link} href={`/Details/${props.id}`}>Details</Button>
             <Button size="small" onClick={handleAddToCart}>Add to Cart</Button>
           </Box>
         </Box>
       </CardActions>
-    </Card>
+    </MatCard>
   );
 }
 
-export default ShopCard;
+export default Card;

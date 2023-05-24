@@ -25,13 +25,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/Shop', [ItemsController::class, 'index'])->name('shop');
+Route::get('/Details/{id}', [ItemsController::class, 'show'])->name('details');
 
-//route to details page with id
-Route::get('/Details/{id}', function () {
-    return Inertia::render('Details');
-})->name('details');
-
-// Create route for ItemsController
 Route::resource('items', ItemsController::class)->names([
     'index' => 'items.index',
     'create' => 'items.create',
